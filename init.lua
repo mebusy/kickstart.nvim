@@ -103,6 +103,8 @@ vim.opt.bg = 'dark'
 -- vim.opt.switchbuf = "useopen,usetab,newtab"
 -- Set up highlight for comments
 vim.cmd.hi 'Comment ctermfg=darkgray'
+-- greatest remap ever: paste over without overwriting register
+vim.keymap.set('x', ';p', '"_dP', { noremap = true, silent = true })
 
 -- Make line numbers default
 vim.opt.number = true

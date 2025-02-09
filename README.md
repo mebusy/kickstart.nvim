@@ -9,6 +9,7 @@ python -m pip install neovim
 :Telescope keymaps
 ```
 
+plugin dirs for macOs: `~/.local/share/nvim/`
 
 ## Introduction
 
