@@ -97,6 +97,8 @@ vim.g.have_nerd_font = false
 -- See `:help vim.opt`
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
+
+-- START MY-CUSTOM
 vim.cmd.colorscheme 'elflord'
 vim.opt.termguicolors = false
 vim.opt.bg = 'dark'
@@ -105,6 +107,12 @@ vim.opt.bg = 'dark'
 vim.cmd.hi 'Comment ctermfg=darkgray'
 -- greatest remap ever: paste over without overwriting register
 vim.keymap.set('x', ';p', '"_dP', { noremap = true, silent = true })
+-- Serch Down into subfolders
+-- Provides tab-completion for all file-related tasks
+-- e.g: :find mat.go
+vim.opt.path:append '**'
+
+-- END MY-CUSTOM
 
 -- Make line numbers default
 vim.opt.number = true
@@ -222,6 +230,8 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
   end
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
+
+vim.cmd('source ' .. vim.fn.stdpath 'config' .. '/config.vim')
 
 -- [[ Configure and install plugins ]]
 --
