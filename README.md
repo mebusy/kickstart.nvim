@@ -1,5 +1,15 @@
 # kickstart.nvim
 
+## Notes
+
+```bash
+brew install luarocks
+python -m pip install neovim
+:Mason   # list && install lsp
+:Telescope keymaps
+```
+
+
 ## Introduction
 
 A starting point for Neovim that is:
