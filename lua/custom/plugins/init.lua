@@ -2,4 +2,12 @@
 --  I promise not to create any merge conflicts in this directory :)
 --
 -- See the kickstart.nvim README for more information
-return {}
+return {
+  {
+    'github/copilot.vim',
+    -- extra installation: `./install_gadget.py --all`
+    'puremourning/vimspector',
+    'tpope/vim-surround',
+    'vim-airline/vim-airline',
+  },
+}
