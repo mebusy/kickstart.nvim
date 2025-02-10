@@ -99,7 +99,7 @@ vim.g.have_nerd_font = false
 --  For more options, you can see `:help option-list`
 
 -- START MY-CUSTOM
-vim.cmd.colorscheme 'elflord'
+vim.cmd.colorscheme 'zaibatsu'
 vim.opt.termguicolors = false
 vim.opt.bg = 'dark'
 -- vim.opt.switchbuf = "useopen,usetab,newtab"
