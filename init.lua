@@ -99,12 +99,12 @@ vim.g.have_nerd_font = false
 --  For more options, you can see `:help option-list`
 
 -- START MY-CUSTOM
-vim.cmd.colorscheme 'zaibatsu'
-vim.opt.termguicolors = false
+
+-- vim.cmd.colorscheme 'zaibatsu'
+vim.cmd.colorscheme 'koehler'
+-- vim.opt.termguicolors = false
 vim.opt.bg = 'dark'
 -- vim.opt.switchbuf = "useopen,usetab,newtab"
--- Set up highlight for comments
-vim.cmd.hi 'Comment ctermfg=darkgray'
 -- greatest remap ever: paste over without overwriting register
 vim.keymap.set('x', ';p', '"_dP', { noremap = true, silent = true })
 -- Serch Down into subfolders
@@ -112,9 +112,10 @@ vim.keymap.set('x', ';p', '"_dP', { noremap = true, silent = true })
 -- e.g: :find mat.go
 vim.opt.path:append '**'
 
+-- Set up highlight for comments, may break colorscheme
+vim.cmd.hi 'Comment ctermfg=darkgray'
 -- change color of popup menu,  e.g. <Leader> / completion menu
-vim.cmd.hi 'Pmenu ctermbg=brown'
--- vim.api.nvim_set_hl(0, 'PmenuSel', { bg = '#3b4252' }) -- Background of selected item
+-- vim.cmd.hi 'Pmenu ctermbg=brown'
 -- END MY-CUSTOM
 
 -- Make line numbers default
