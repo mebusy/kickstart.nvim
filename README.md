@@ -2,14 +2,26 @@
 
 ## Notes
 
+nvim need luarocks
+
 ```bash
 brew install luarocks
-python -m pip install neovim
+```
+
+```vim
 :Mason   # list && install lsp
 :Telescope keymaps
 ```
 
 plugin dirs for macOs: `~/.local/share/nvim/`
+
+### vimspector
+
+```bash
+python -m pip install neovim
+
+./install_gadget.py --all
+```
 
 ## Introduction
 
