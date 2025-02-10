@@ -112,6 +112,9 @@ vim.keymap.set('x', ';p', '"_dP', { noremap = true, silent = true })
 -- e.g: :find mat.go
 vim.opt.path:append '**'
 
+-- change color of popup menu,  e.g. <Leader> / completion menu
+vim.cmd.hi 'Pmenu ctermbg=brown'
+-- vim.api.nvim_set_hl(0, 'PmenuSel', { bg = '#3b4252' }) -- Background of selected item
 -- END MY-CUSTOM
 
 -- Make line numbers default
@@ -717,7 +720,8 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
-        local disable_filetypes = { c = true, cpp = true }
+        -- local disable_filetypes = { c = true, cpp = true }
+        local disable_filetypes = {}
         local lsp_format_opt
         if disable_filetypes[vim.bo[bufnr].filetype] then
           lsp_format_opt = 'never'
@@ -738,6 +742,7 @@ require('lazy').setup({
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
         javascript = { 'prettier', stop_after_first = true },
+        -- cpp = { 'clang-format' },
       },
     },
   },
@@ -814,7 +819,7 @@ require('lazy').setup({
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
           ['<CR>'] = cmp.mapping.confirm { select = true },
-          ['<Tab>'] = cmp.mapping.select_next_item(),
+          -- ['<Tab>'] = cmp.mapping.select_next_item(),
           --['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
           -- Manually trigger a completion from nvim-cmp.
