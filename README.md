@@ -24,6 +24,10 @@ brew install luarocks
   ```bash
   nvim --headless "+MasonInstall jdtls" +q
   ```
+  - all
+  ```bash
+  nvim --headless "+MasonInstall typescript-language-server  python-lsp-server  clangd rust-analyzer  omnisharp jdtls gopls" +q
+  ```
 - manually uninstall
   - e.g. jdtls
   ```bash

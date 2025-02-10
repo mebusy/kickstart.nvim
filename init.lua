@@ -745,6 +745,7 @@ require('lazy').setup({
         javascript = { 'prettier', stop_after_first = true },
         -- cpp = { 'clang-format' },
         cs = { 'clang-format' },
+        java = { 'clang-format' },
       },
     },
   },
