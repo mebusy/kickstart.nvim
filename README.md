@@ -13,6 +13,9 @@ brew install luarocks
 # gopls
 # typescript-language-server
 # python-lsp-server
+# clangd
+# rust-analyzer
+# omnisharp
 
 :Telescope keymaps  # check key map
 ```
