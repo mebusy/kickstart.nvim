@@ -100,8 +100,8 @@ vim.g.have_nerd_font = false
 
 -- START MY-CUSTOM
 
--- vim.cmd.colorscheme 'zaibatsu'
-vim.cmd.colorscheme 'koehler'
+vim.cmd.colorscheme 'zaibatsu'
+-- vim.cmd.colorscheme 'koehler'
 -- vim.opt.termguicolors = false
 vim.opt.bg = 'dark'
 -- vim.opt.switchbuf = "useopen,usetab,newtab"
