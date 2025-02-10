@@ -8,9 +8,13 @@ nvim need luarocks
 brew install luarocks
 ```
 
-```vim
+```bash
 :Mason   # list && install lsp
-:Telescope keymaps
+# gopls
+# typescript-language-server
+# python-lsp-server
+
+:Telescope keymaps  # check key map
 ```
 
 plugin dirs for macOs: `~/.local/share/nvim/`
