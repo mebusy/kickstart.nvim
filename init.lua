@@ -115,7 +115,7 @@ vim.opt.path:append '**'
 -- Set up highlight for comments, may break colorscheme
 vim.cmd.hi 'Comment ctermfg=darkgray'
 -- change color of popup menu,  e.g. <Leader> / completion menu
--- vim.cmd.hi 'Pmenu ctermbg=brown'
+vim.cmd.hi 'Pmenu ctermbg=gray'
 -- END MY-CUSTOM
 
 -- Make line numbers default
