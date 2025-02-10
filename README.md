@@ -16,7 +16,26 @@ brew install luarocks
 # clangd
 # rust-analyzer
 # omnisharp
+# jdtls
+```
 
+- manually install
+  - e.g. jdtls
+  ```bash
+  nvim --headless "+MasonInstall jdtls" +q
+  ```
+- manually uninstall
+  - e.g. jdtls
+  ```bash
+  rm -rf ~/.local/share/nvim/mason/share/jdtls
+  rm -rf ~/.local/share/nvim/mason/packages/jdtls
+  rm -rf ~/.local/state/nvim/mason/bin/jdtls
+  rm -rf ~/.cache/jdtls
+  rm ~/.local/share/nvim/mason/share/mason-schemas/lsp/jdtls.json
+  ```
+
+
+```bash
 :Telescope keymaps  # check key map
 ```
 
