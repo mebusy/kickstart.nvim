@@ -156,7 +156,7 @@ vim.opt.breakindent = true
 vim.opt.undofile = false
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
-vim.opt.ignorecase = true
+vim.opt.ignorecase = false
 vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
@@ -743,7 +743,7 @@ require('lazy').setup({
           lsp_format_opt = 'fallback'
         end
         return {
-          timeout_ms = 500,
+          timeout_ms = 1500, -- format timeout
           lsp_format = lsp_format_opt,
         }
       end,
