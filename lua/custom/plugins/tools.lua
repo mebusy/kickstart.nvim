@@ -4,8 +4,11 @@
 -- See the kickstart.nvim README for more information
 return {
   {
-    'github/copilot.vim',
-    -- extra installation: `./install_gadget.py --all`
-    'puremourning/vimspector',
+    -- auto add `end` for if, def, etc...
+    'tpope/vim-endwise',
+    -- automatic closing of quotes, parenthesis, brackets, etc
+    'Raimondi/delimitMate',
+    'tpope/vim-surround',
+    'vim-airline/vim-airline',
   },
 }
