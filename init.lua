@@ -98,12 +98,25 @@ vim.g.have_nerd_font = false
 -- NOTE: You can change these options as you wish!
 --  For more options, you can see `:help option-list`
 
--- START MY-CUSTOM
+---------------------------- START MY-CUSTOM  ----------------------------
 
-vim.cmd.colorscheme 'zaibatsu'
--- vim.cmd.colorscheme 'koehler'
+------ COLOR ------------------
 -- vim.opt.termguicolors = false
 vim.opt.bg = 'dark'
+
+------- START COLOR SCHEME ----------
+-- https://gitlab.b-data.ch/neovim/neovim/-/blob/master/runtime/colors/zaibatsu.vim
+--
+-- vim.cmd.colorscheme 'zaibatsu'
+-- vim.cmd.hi 'Pmenu ctermbg=gray' -- zaiabatsu  popup menu is too bright
+
+vim.cmd.colorscheme 'koehler'
+vim.cmd.hi 'NonText ctermfg=103' -- koehler  NonText's color is too RED
+------- END COLOR SCHEME ----------
+
+-- Set up highlight for comments, may break colorscheme
+vim.cmd.hi 'Comment ctermfg=darkgray'
+
 -- vim.opt.switchbuf = "useopen,usetab,newtab"
 -- greatest remap ever: paste over without overwriting register
 vim.keymap.set('x', ';p', '"_dP', { noremap = true, silent = true })
@@ -112,11 +125,9 @@ vim.keymap.set('x', ';p', '"_dP', { noremap = true, silent = true })
 -- e.g: :find mat.go
 vim.opt.path:append '**'
 
--- Set up highlight for comments, may break colorscheme
-vim.cmd.hi 'Comment ctermfg=darkgray'
 -- change color of popup menu,  e.g. <Leader> / completion menu
-vim.cmd.hi 'Pmenu ctermbg=gray'
--- END MY-CUSTOM
+
+---------------------------- END MY-CUSTOM ----------------------------
 
 -- Make line numbers default
 vim.opt.number = true
@@ -172,6 +183,7 @@ vim.opt.inccommand = 'split'
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
+vim.api.nvim_set_hl(0, 'CursorLine', { underline = true })
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
