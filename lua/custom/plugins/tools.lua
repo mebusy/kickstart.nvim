@@ -11,4 +11,47 @@ return {
     'tpope/vim-surround',
     'vim-airline/vim-airline',
   },
+  {
+    'nvim-tree/nvim-tree.lua',
+    event = 'VimEnter',
+    dependencies = {
+      -- Useful for getting pretty icons, but requires a Nerd Font.
+      -- { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+    },
+    -- empty setup using defaults
+    config = function()
+      -- nvim-tree
+      -- disable netrw at the very start of your init.lua
+      vim.g.loaded_netrw = 1
+      vim.g.loaded_netrwPlugin = 1
+      require('nvim-tree').setup {
+        renderer = {
+          icons = {
+            glyphs = {
+              default = '📄', -- Change this to another symbol if needed
+              symlink = '🔗',
+              folder = {
+                default = '📁',
+                open = '📂',
+                empty = '·',
+                empty_open = '·',
+                symlink = '🔗',
+                symlink_open = '🔗',
+              },
+              git = {
+                unstaged = '✗',
+                staged = '✓',
+                unmerged = '═',
+                renamed = '➜',
+                untracked = '★',
+                deleted = '⊖',
+                ignored = '◌',
+              },
+            },
+          },
+        },
+      }
+      vim.keymap.set('n', '<leader>fl', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+    end,
+  },
 }

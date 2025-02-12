@@ -125,8 +125,6 @@ vim.keymap.set('x', ';p', '"_dP', { noremap = true, silent = true })
 -- e.g: :find mat.go
 vim.opt.path:append '**'
 
--- change color of popup menu,  e.g. <Leader> / completion menu
-
 ---------------------------- END MY-CUSTOM ----------------------------
 
 -- Make line numbers default
