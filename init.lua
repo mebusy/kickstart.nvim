@@ -119,7 +119,7 @@ vim.cmd.hi 'Comment ctermfg=darkgray'
 
 -- vim.opt.switchbuf = "useopen,usetab,newtab"
 -- greatest remap ever: paste over without overwriting register
-vim.keymap.set('x', ';p', '"_dP', { noremap = true, silent = true })
+vim.keymap.set('x', '<leader>p', '"_dP', { noremap = true, silent = true })
 -- Serch Down into subfolders
 -- Provides tab-completion for all file-related tasks
 -- e.g: :find mat.go
