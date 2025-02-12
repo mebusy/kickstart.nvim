@@ -9,7 +9,6 @@ return {
     -- automatic closing of quotes, parenthesis, brackets, etc
     'Raimondi/delimitMate',
     'tpope/vim-surround',
-    'vim-airline/vim-airline',
   },
   {
     'nvim-tree/nvim-tree.lua',
@@ -52,6 +51,28 @@ return {
         },
       }
       vim.keymap.set('n', '<leader>fl', ':NvimTreeToggle<CR>', { noremap = true, silent = true })
+    end,
+  },
+  {
+    'vim-airline/vim-airline',
+    -- if has('macunix')
+    --     " markdown chrome browse
+    --     " autocmd BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} map <Leader>md :! $chrome_app"/Contents/MacOS/Google Chrome" "%:p"<CR>
+    --     autocmd BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} map <Leader>md :! open -a "Google Chrome" "%:p"<CR>
+    -- endif
+    config = function()
+      if vim.fn.has 'macunix' == 1 then
+        -- Open Markdown files in Google Chrome
+        vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+          pattern = { '*.md', '*.mdown', '*.mkd', '*.mkdn', '*.markdown', '*.mdwn' },
+          callback = function()
+            vim.keymap.set('n', '<Leader>md', function()
+              local file_path = vim.fn.expand '%:p' -- Get full path of current file
+              vim.cmd("!open -a 'Google Chrome' '" .. file_path .. "'")
+            end, { noremap = true, silent = true })
+          end,
+        })
+      end
     end,
   },
 }

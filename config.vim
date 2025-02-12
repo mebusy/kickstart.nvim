@@ -1,9 +1,4 @@
 
-if has('macunix')
-    " markdown chrome browse
-    " autocmd BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} map <Leader>md :! $chrome_app"/Contents/MacOS/Google Chrome" "%:p"<CR>
-    autocmd BufRead,BufNewFile *.{md,mdown,mkd,mkdn,markdown,mdwn} map <Leader>md :! open -a "Google Chrome" "%:p"<CR>
-endif
 
 
 " vim-inspector
