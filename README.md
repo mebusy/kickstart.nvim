@@ -51,11 +51,11 @@ plugin dirs for macOs: `~/.local/share/nvim/`
 nvim --headless "+MasonInstall black" +q
 ```
 
-
 ### vimspector
 
 ```bash
-python -m pip install neovim
+# must install pynvim to work with vimspector, to every python venv
+python -m pip install pynvim
 
 ./install_gadget.py --all
 ```
