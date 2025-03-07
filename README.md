@@ -45,6 +45,13 @@ brew install luarocks
 plugin dirs for macOs: `~/.local/share/nvim/`
 
 
+- update plugins
+  - `nvim --headless "+Lazy update" +qa`
+  - only update existing plugins
+- sync plugins
+  - `nvim --headless "+Lazy! sync" +qa`
+  - update existing plugins, install plugins, remove unused plugins
+
 ### formater
 
 ```bash
@@ -59,6 +66,8 @@ python -m pip install pynvim
 
 ./install_gadget.py --all
 ```
+
+-------------------------
 
 ## Introduction
 
