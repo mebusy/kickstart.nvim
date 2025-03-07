@@ -941,12 +941,49 @@ require('lazy').setup({
       -- set use_icons to true if you have a Nerd Font
       statusline.setup { use_icons = vim.g.have_nerd_font }
 
+      -- Define highlight groups for errors and warnings
+      vim.api.nvim_set_hl(0, 'StatuslineError', { ctermbg = 'red', ctermfg = 'black' }) -- Red for errors
+      vim.api.nvim_set_hl(0, 'StatuslineWarn', { ctermbg = 'yellow', ctermfg = 'black' }) -- Yellow for warnings
+
       -- You can configure sections in the statusline by overriding their
       -- default behavior. For example, here we set the section for
       -- cursor location to LINE:COLUMN
       ---@diagnostic disable-next-line: duplicate-set-field
       statusline.section_location = function()
-        return '%2l:%-2v'
+        -- return '%2l:%-2v'
+        local diagnostics = vim.diagnostic.get(0) -- Get diagnostics for the current buffer
+        local first_error, first_warning = nil, nil
+
+        for _, diag in ipairs(diagnostics) do
+          if diag.severity == vim.diagnostic.severity.ERROR and not first_error then
+            first_error = diag.lnum + 1 -- Convert 0-based to 1-based line number
+          elseif diag.severity == vim.diagnostic.severity.WARN and not first_warning then
+            first_warning = diag.lnum + 1
+          end
+          if first_error and first_warning then
+            break
+          end
+        end
+
+        local errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
+        local warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
+
+        local res = '%2l:%-2v'
+        if errors == 0 and warnings == 0 then
+          return res
+        end
+
+        local error_sign = 'E:'
+        local warn_sign = 'W:'
+
+        if errors > 0 then
+          res = res .. string.format('%%#StatuslineError#%s%d[%s]%%* ', error_sign, errors, first_error or '-')
+        end
+        if warnings > 0 then
+          res = res .. string.format('%%#StatuslineWarn#%s%d[%s]%%*', warn_sign, warnings, first_warning or '-')
+        end
+
+        return res
       end
 
       -- ... and there is more!
