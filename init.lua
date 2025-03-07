@@ -737,13 +737,13 @@ require('lazy').setup({
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
         -- local disable_filetypes = { c = true, cpp = true }
-        -- if language is in formatters_by_ft, this language should be added to disable_filetypes
-        local disable_filetypes = { lua = true, python = true, javascript = true, cs = true, java = true }
+        local disable_filetypes = {}
         local lsp_format_opt
         if disable_filetypes[vim.bo[bufnr].filetype] then
           lsp_format_opt = 'never'
         else
-          lsp_format_opt = 'fallback'
+          -- lsp_format_opt = 'fallback'
+          lsp_format_opt = 'if_no_formatters' -- 只有在找不到格式化工具时才回退到 LSP
         end
         return {
           timeout_ms = 1500, -- format timeout
