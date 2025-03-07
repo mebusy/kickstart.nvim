@@ -693,21 +693,6 @@ require('lazy').setup({
             },
           },
         },
-
-        ts_ls = {
-          settings = {
-            typescript = {
-              validate = {
-                property = false, -- Disable 'Property does not exist' errors
-              },
-            },
-            javascript = {
-              validate = {
-                property = false, -- Disable for JavaScript as well
-              },
-            },
-          },
-        },
       }
 
       -- Ensure the servers and tools above are installed
