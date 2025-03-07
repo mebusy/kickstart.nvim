@@ -128,6 +128,19 @@ vim.opt.path:append '**'
 -- vimspector
 vim.g.vimspector_enable_mappings = 'HUMAN'
 
+if vim.fn.has 'macunix' == 1 then
+  -- Open Markdown files in Google Chrome
+  vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+    pattern = { '*.md', '*.mdown', '*.mkd', '*.mkdn', '*.markdown', '*.mdwn' },
+    callback = function()
+      vim.keymap.set('n', '<Leader>md', function()
+        local file_path = vim.fn.expand '%:p' -- Get full path of current file
+        vim.cmd("!open -a 'Google Chrome' '" .. file_path .. "'")
+      end, { noremap = true, silent = true })
+    end,
+  })
+end
+
 ---------------------------- END MY-CUSTOM ----------------------------
 
 -- Make line numbers default
