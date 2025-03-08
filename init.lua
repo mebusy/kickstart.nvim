@@ -141,6 +141,10 @@ if vim.fn.has 'macunix' == 1 then
   })
 end
 
+-- let nvim call external function/alias defined in shell
+vim.opt.shell = 'bash'
+vim.opt.shellcmdflag = '--login -c'
+
 ---------------------------- END MY-CUSTOM ----------------------------
 
 -- Make line numbers default
