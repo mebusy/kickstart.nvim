@@ -676,8 +676,16 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
-        --
+        ts_ls = {
+          settings = {
+            diagnostics = {
+              -- ignoredCodes :
+              -- https://github.com/microsoft/TypeScript/blob/master/src/compiler/diagnosticMessages.json
+              -- 2339: Property '...' does not exist on type '...'  // for javascript
+              ignoredCodes = { 2339 },
+            },
+          },
+        },
 
         lua_ls = {
           -- cmd = { ... },
