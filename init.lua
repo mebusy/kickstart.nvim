@@ -202,7 +202,7 @@ vim.opt.inccommand = 'split'
 
 -- Show which line your cursor is on
 vim.opt.cursorline = true
-vim.api.nvim_set_hl(0, 'CursorLine', { underline = true })
+vim.api.nvim_set_hl(0, 'CursorLine', { bold = true, ctermbg = 236 })
 
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
