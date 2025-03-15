@@ -117,7 +117,7 @@ vim.cmd.hi 'NonText ctermfg=103' -- koehler  NonText's color is too RED
 -- Set up highlight for comments, may break colorscheme
 vim.cmd.hi 'Comment ctermfg=darkgray'
 
--- vim.opt.switchbuf = "useopen,usetab,newtab"
+-- vim.opt.switchbuf = 'useopen,usetab,newtab'
 -- greatest remap ever: paste over without overwriting register
 vim.keymap.set('x', '<leader>p', '"_dP', { noremap = true, silent = true })
 -- Serch Down into subfolders
@@ -144,7 +144,6 @@ end
 -- let nvim call external function/alias defined in shell
 vim.opt.shell = 'bash'
 vim.opt.shellcmdflag = '--login -c'
-
 
 -- gcc Toggle comment line, force use `//` for c file
 vim.cmd [[
@@ -574,7 +573,15 @@ require('lazy').setup({
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
-          map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          -- map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
+          vim.api.nvim_set_keymap(
+            'n',
+            'gd',
+            [[<cmd>lua require('telescope.builtin').lsp_definitions({ jump_type = 'tab drop', reuse_win = true })<CR>]],
+            { noremap = true, silent = true }
+          )
+          -- the above reuse_win is for split window, not for tab
+          --
 
           -- Find references for the word under your cursor.
           map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
