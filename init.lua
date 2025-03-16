@@ -698,11 +698,15 @@ require('lazy').setup({
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
         -- clangd to specify cpp std version:
-        -- method 1
         --    .clangd   in project root
         --    ```
         --    CompileFlags:
         --      Add: [-std=c++20]
+        --    ```
+        -- or provide header search path
+        --    ```
+        --    CompileFlags:
+        --      Add: [-std=c++20, -I/usr/include/c++/10]
         --    ```
         -- clangd = {},
         --
