@@ -147,7 +147,7 @@ vim.opt.shellcmdflag = '--login -c'
 
 -- gcc Toggle comment line, force use `//` for c file
 vim.cmd [[
-  autocmd FileType c setlocal commentstring=//\ %s
+  autocmd FileType c,cpp,hpp setlocal commentstring=//\ %s
 ]]
 
 ---------------------------- END MY-CUSTOM ----------------------------
