@@ -64,6 +64,7 @@ nvim --headless "+MasonInstall black" +q
 # must install pynvim to work with vimspector, to every python venv
 python -m pip install pynvim
 
+cd ~/.local/share/nvim/lazy/vimspector
 ./install_gadget.py --all
 ```
 
