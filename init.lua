@@ -99,6 +99,17 @@ vim.g.have_nerd_font = false
 --  For more options, you can see `:help option-list`
 
 ---------------------------- START MY-CUSTOM  ----------------------------
+-- set smartindent
+-- set tabstop=4
+-- set shiftwidth=4
+-- set expandtab
+-- set softtabstop=4
+-- convert above to lua config
+vim.opt.smartindent = true
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
+vim.opt.softtabstop = 4
 
 ------ COLOR ------------------
 -- vim.opt.termguicolors = false
@@ -200,7 +211,7 @@ vim.opt.splitbelow = true
 --  See `:help 'list'`
 --  and `:help 'listchars'`
 vim.opt.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
+vim.opt.listchars = { tab = '> ', trail = '·', nbsp = '␣' }
 
 -- Preview substitutions live, as you type!
 vim.opt.inccommand = 'split'
