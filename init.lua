@@ -719,6 +719,11 @@ require('lazy').setup({
         --    CompileFlags:
         --      Add: [-std=c++20, -I/usr/include/c++/10]
         --    ```
+        -- for c:
+        --    ```
+        --    CompileFlags:
+        --      Add: [-std=c99]
+        --    ```
         -- clangd = {},
         --
         -- gopls = {},
