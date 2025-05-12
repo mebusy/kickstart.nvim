@@ -38,6 +38,11 @@ brew install luarocks
   rm ~/.local/share/nvim/mason/share/mason-schemas/lsp/jdtls.json
   ```
 
+- update
+    ```bash
+    nvim --headless "+MasonUpdate" +q
+    ```
+
 ```bash
 :Telescope keymaps  # check key map
 ```
