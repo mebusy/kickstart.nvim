@@ -8,23 +8,7 @@ nvim need luarocks
 brew install luarocks
 ```
 
-```bash
-:Mason   # list && install lsp
-# gopls
-# typescript-language-server
-# python-lsp-server
-# clangd
-# rust-analyzer
-# omnisharp
-# jdtls
-```
-
-- manually install
-  - e.g. jdtls
-  ```bash
-  nvim --headless "+MasonInstall jdtls" +q
-  ```
-  - all
+- install LSP
   ```bash
   nvim --headless "+MasonInstall typescript-language-server  python-lsp-server  clangd rust-analyzer  omnisharp jdtls gopls" +q
   ```
@@ -37,10 +21,10 @@ brew install luarocks
   rm -rf ~/.cache/jdtls
   rm ~/.local/share/nvim/mason/share/mason-schemas/lsp/jdtls.json
   ```
-
-- update
+- update lsp/foramter/DAP ...
     ```bash
-    nvim --headless "+MasonUpdate" +q
+    :Mason
+    # then press U to update all
     ```
 
 ```bash
