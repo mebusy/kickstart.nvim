@@ -530,7 +530,7 @@ require('lazy').setup({
       -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
       -- { 'mason-org/mason.nvim', opts = {}, version = '^1.0.0' },
       -- { 'mason-org/mason-lspconfig.nvim', version = '^1.0.0' },
-      { 'mason-org/mason.nvim', opts = {} },
+      { 'mason-org/mason.nvim', opts = {} }, -- nvim 0.11.1 fix this issue
       { 'mason-org/mason-lspconfig.nvim' },
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
