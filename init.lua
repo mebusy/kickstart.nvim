@@ -668,7 +668,8 @@ require('lazy').setup({
           end
 
           if client and client.name == 'ts_ls' then
-            -- `lua print(vim.inspect(vim.lsp.get_client_by_id(1)))`
+            -- use vim.inspect to print lua-table
+            -- print(vim.inspect(vim.lsp.get_client_by_id(1)))
             local filetype = vim.bo[event.buf].filetype
             local ignoredCodes = {}
             -- https://github.com/microsoft/TypeScript/blob/master/src/compiler/diagnosticMessages.json
