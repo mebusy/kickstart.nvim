@@ -678,6 +678,7 @@ require('lazy').setup({
               table.insert(ignoredCodes, 2339)
             end
             -- reload new settings
+            -- print(vim.inspect(client.config.settings))
             client.config.settings.diagnostics.ignoredCodes = ignoredCodes
             client.notify('workspace/didChangeConfiguration', { settings = client.config.settings })
           end
@@ -809,20 +810,43 @@ require('lazy').setup({
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
       })
+
+      ----------
+      -- 获取 Mason 的包注册表
+      -- local mason_registry = require 'mason-registry'
+      -- local _lspconfig = require 'lspconfig'
+      --
+      -- -- 遍历所有已安装的包，筛选出 LSP 类型的包
+      -- local installed_lsps = {}
+      -- for _, package in ipairs(mason_registry.get_installed_packages()) do
+      --   local categories = package.spec.categories or {}
+      --   if vim.tbl_contains(categories, 'LSP') then
+      --     table.insert(installed_lsps, package.name)
+      --   end
+      -- end
+      -- 打印结果
+      -- print(vim.inspect(installed_lsps))
+      ----------
+      ----------
+      ----------
+
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       require('mason-lspconfig').setup {
-        handlers = {
-          function(server_name)
-            local server = servers[server_name] or {}
-            -- This handles overriding only values explicitly passed
-            -- by the server configuration above. Useful when disabling
-            -- certain features of an LSP (for example, turning off formatting for ts_ls)
-            server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
-          end,
-        },
+        automatic_enable = false, -- HACK: rely on lspconfig[server_name].setup to enable the LSPs. For some reason, pyright doesn't get enabled this way
       }
+      -- gather installed server from mason
+      local installedServers = require('mason-lspconfig').get_installed_servers()
+
+      for _, server_name in pairs(installedServers) do
+        local server = servers[server_name] or {} -- load preset config if available
+        -- print('init lsp: ' .. vim.inspect(server_name) .. vim.inspect(server))
+        -- This handles overriding only values explicitly passed
+        -- by the server configuration above. Useful when disabling
+        -- certain features of an LSP (for example, turning off formatting for ts_ls)
+        server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+        require('lspconfig')[server_name].setup(server)
+      end
     end,
   },
 
