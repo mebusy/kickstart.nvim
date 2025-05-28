@@ -40,6 +40,7 @@ brew install luarocks
 
 - plugin dirs for macOs: 
     - `~/.local/share/nvim/`
+    - Mason packages: `~/.local/share/nvim/mason/`
 - nvim logs
     ```bash
     :echo stdpath("log")
