@@ -791,6 +791,23 @@ require('lazy').setup({
             },
           },
         },
+
+        -- omnisharp broken after upgrade to neovim 0.11.1 and mason 2.x
+        omnisharp = {
+          cmd = {
+            'omnisharp', -- or full path e.g., "~/omnisharp/run"
+            '--languageserver',
+            '--hostPID',
+            tostring(vim.fn.getpid()),
+            -- Other arguments...
+            '-z',
+            'DotNet:enablePackageRestore=false',
+            '--encoding',
+            'utf-8',
+            'FormattingOptions:EnableEditorConfigSupport=true',
+            'Sdk:IncludePrereleases=true',
+          },
+        },
       }
 
       -- Ensure the servers and tools above are installed
