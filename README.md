@@ -12,26 +12,23 @@ brew install luarocks
   ```bash
   nvim --headless "+MasonInstall typescript-language-server  python-lsp-server  clangd rust-analyzer  omnisharp jdtls gopls" +q
   ```
-- manually uninstall
-  - e.g. jdtls
-  ```bash
-  rm -rf ~/.local/share/nvim/mason/share/jdtls
-  rm -rf ~/.local/share/nvim/mason/packages/jdtls
-  rm -rf ~/.local/state/nvim/mason/bin/jdtls
-  rm -rf ~/.cache/jdtls
-  rm ~/.local/share/nvim/mason/share/mason-schemas/lsp/jdtls.json
-  ```
+- uninstall LSP
+    - Mason
+        - `X`
+    - manually uninstall
+      - e.g. jdtls
+      ```bash
+      rm -rf ~/.local/share/nvim/mason/share/jdtls
+      rm -rf ~/.local/share/nvim/mason/packages/jdtls
+      rm -rf ~/.local/state/nvim/mason/bin/jdtls
+      rm -rf ~/.cache/jdtls
+      rm ~/.local/share/nvim/mason/share/mason-schemas/lsp/jdtls.json
+      ```
 - update lsp/foramter/DAP ...
     ```bash
     :Mason
     # then press U to update all
     ```
-
-```bash
-:Telescope keymaps  # check key map
-```
-
-plugin dirs for macOs: `~/.local/share/nvim/`
 
 
 - update plugins
@@ -40,6 +37,15 @@ plugin dirs for macOs: `~/.local/share/nvim/`
 - sync plugins
   - `nvim --headless "+Lazy! sync" +qa`
   - update existing plugins, install plugins, remove unused plugins
+
+- plugin dirs for macOs: 
+    - `~/.local/share/nvim/`
+- nvim logs
+    ```bash
+    :echo stdpath("log")
+
+    tail -f  ~/.local/state/nvim/*.log
+    ```
 
 ### formater
 
