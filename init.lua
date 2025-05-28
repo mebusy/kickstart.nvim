@@ -832,11 +832,13 @@ require('lazy').setup({
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
-      require('mason-lspconfig').setup {
+      local mason_lspconfig = require 'mason-lspconfig'
+
+      mason_lspconfig.setup {
         automatic_enable = false, -- HACK: rely on lspconfig[server_name].setup to enable the LSPs. For some reason, pyright doesn't get enabled this way
       }
       -- gather installed server from mason
-      local installedServers = require('mason-lspconfig').get_installed_servers()
+      local installedServers = mason_lspconfig.get_installed_servers()
 
       for _, server_name in pairs(installedServers) do
         local server = servers[server_name] or {} -- load preset config if available
