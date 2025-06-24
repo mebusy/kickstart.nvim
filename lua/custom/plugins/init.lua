@@ -6,8 +6,8 @@ return {
   {
     'github/copilot.vim',
     config = function()
-      -- Set the node command Copilot will use
-      local nodePath = vim.fn.expand '~/.nvm/versions/node/v22.14.0/bin/node'
+      -- Set the node command Copilot will use, use node v20. or later
+      local nodePath = vim.fn.expand '~/.nvm/versions/node/v2*/bin/node'
       -- if nodePath exists, then set vim.g.copilot_node_command
       if vim.fn.filereadable(nodePath) == 1 then
         vim.g.copilot_node_command = nodePath
