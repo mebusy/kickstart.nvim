@@ -673,9 +673,11 @@ require('lazy').setup({
             local filetype = vim.bo[event.buf].filetype
             local ignoredCodes = {}
             -- https://github.com/microsoft/TypeScript/blob/master/src/compiler/diagnosticMessages.json
-            -- 2339: Property '...' does not exist on type '...'  // for javascript
             if filetype == 'javascript' then
+              -- 2339: Property '...' does not exist on type '...'  // for javascript
               table.insert(ignoredCodes, 2339)
+              -- 7044: "Parameter '{0}' implicitly has an '{1}' type, but a better type may be inferred from usage."
+              table.insert(ignoredCodes, 7044)
             end
             -- reload new settings
             -- print(vim.inspect(client.config.settings))
