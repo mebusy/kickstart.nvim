@@ -161,6 +161,10 @@ vim.cmd [[
   autocmd FileType c,cpp,hpp setlocal commentstring=//\ %s
 ]]
 
+-- 多编码识别
+vim.opt.fileencodings = { 'ucs-bom', 'utf-8', 'gbk', 'gb2312', 'cp936', 'big5', 'latin1' }
+-- to force save with utf-8:    `:set fileencoding=utf-8 | w`
+
 ---------------------------- END MY-CUSTOM ----------------------------
 
 -- Make line numbers default
