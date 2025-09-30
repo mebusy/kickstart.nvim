@@ -834,25 +834,6 @@ require('lazy').setup({
         -- add your lsp here
       })
 
-      ----------
-      -- 获取 Mason 的包注册表
-      -- local mason_registry = require 'mason-registry'
-      -- local _lspconfig = require 'lspconfig'
-      --
-      -- -- 遍历所有已安装的包，筛选出 LSP 类型的包
-      -- local installed_lsps = {}
-      -- for _, package in ipairs(mason_registry.get_installed_packages()) do
-      --   local categories = package.spec.categories or {}
-      --   if vim.tbl_contains(categories, 'LSP') then
-      --     table.insert(installed_lsps, package.name)
-      --   end
-      -- end
-      -- 打印结果
-      -- print(vim.inspect(installed_lsps))
-      ----------
-      ----------
-      ----------
-
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       local mason_lspconfig = require 'mason-lspconfig'
@@ -870,7 +851,9 @@ require('lazy').setup({
         -- by the server configuration above. Useful when disabling
         -- certain features of an LSP (for example, turning off formatting for ts_ls)
         server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-        require('lspconfig')[server_name].setup(server)
+        -- require('lspconfig')[server_name].setup(server)
+        vim.lsp.config(server_name, server)
+        vim.lsp.enable(server_name)
       end
     end,
   },
