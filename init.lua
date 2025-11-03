@@ -199,7 +199,9 @@ vim.opt.ignorecase = false
 vim.opt.smartcase = true
 
 -- Keep signcolumn on by default
-vim.opt.signcolumn = 'yes'
+-- vim.opt.signcolumn = 'yes'
+-- solve sign conflict between lsp and vimspector breakpoint
+vim.opt.signcolumn = 'auto:2'
 
 -- Decrease update time
 vim.opt.updatetime = 250
