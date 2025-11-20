@@ -164,6 +164,9 @@ vim.cmd [[
 -- 多编码识别
 vim.opt.fileencodings = { 'ucs-bom', 'utf-8', 'gbk', 'gb2312', 'cp936', 'big5', 'latin1' }
 -- to force save with utf-8:    `:set fileencoding=utf-8 | w`
+vim.api.nvim_create_user_command('WU8', function()
+  vim.cmd 'write ++enc=utf-8'
+end, {})
 
 ---------------------------- END MY-CUSTOM ----------------------------
 
