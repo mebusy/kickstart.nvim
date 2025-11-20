@@ -17,12 +17,16 @@ return {
   {
     -- extra installation: `./install_gadget.py --all`
     'puremourning/vimspector',
-    config = function()
+    -- lazy = false,
+    init = function()
+      vim.g.vimspector_enable_mappings = 'HUMAN'
       -- let g:vimspector_enable_mappings = 'HUMAN'
       -- " F9: add breakpoint
       -- " <leader>F9: add conditional breakpoint
       -- " <leader>F8: run to Cursor
+    end,
 
+    config = function()
       -- " for normal mode - the word under the cursor
       -- nmap <Leader>di <Plug>VimspectorBalloonEval
       vim.keymap.set('n', '<Leader>di', '<Plug>VimspectorBalloonEval', { noremap = true })

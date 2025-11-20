@@ -136,9 +136,6 @@ vim.keymap.set('x', '<leader>p', '"_dP', { noremap = true, silent = true })
 -- e.g: :find mat.go
 vim.opt.path:append '**'
 
--- vimspector
-vim.g.vimspector_enable_mappings = 'HUMAN'
-
 if vim.fn.has 'macunix' == 1 then
   -- Open Markdown files in Google Chrome
   vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
