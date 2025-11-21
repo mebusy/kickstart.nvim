@@ -136,9 +136,6 @@ vim.keymap.set('x', '<leader>p', '"_dP', { noremap = true, silent = true })
 -- e.g: :find mat.go
 vim.opt.path:append '**'
 
--- vimspector
-vim.g.vimspector_enable_mappings = 'HUMAN'
-
 if vim.fn.has 'macunix' == 1 then
   -- Open Markdown files in Google Chrome
   vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
@@ -164,6 +161,9 @@ vim.cmd [[
 -- 多编码识别
 vim.opt.fileencodings = { 'ucs-bom', 'utf-8', 'gbk', 'gb2312', 'cp936', 'big5', 'latin1' }
 -- to force save with utf-8:    `:set fileencoding=utf-8 | w`
+vim.api.nvim_create_user_command('WU8', function()
+  vim.cmd 'write ++enc=utf-8'
+end, {})
 
 -- markdown codeblock color
 vim.api.nvim_set_hl(0, '@markup.raw', { fg = '#e3c46f' })
@@ -592,16 +592,67 @@ require('lazy').setup({
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
           end
 
+          -- 当 跳转 lsp definition的时候，如果只有一个确定的备选， 会正确地在新的 tab 打开。
+          -- 但是如果出现了 LSP definitions Result 选择界面，按回车选中， 会直接在 当前buf中打开，而不是新的tab，
+          -- 怎么设置，才能使得 这种情况，也在新tab 中打开?
+          local telescope = require 'telescope'
+          local builtin = require 'telescope.builtin'
+          local actions = require 'telescope.actions'
+          local action_state = require 'telescope.actions.state'
+
+          -- Universal picker wrapper: forces tab-open on selection
+          local function make_tabopen_picker(fn)
+            return function(opts)
+              opts = opts or {}
+
+              opts.jump_type = opts.jump_type or 'tab drop'
+              opts.reuse_win = opts.reuse_win ~= false
+
+              opts.attach_mappings = function(_, map)
+                -- override <CR> in both insert & normal mode
+                local function open_in_tab(prompt_bufnr)
+                  local entry = action_state.get_selected_entry()
+                  actions.close(prompt_bufnr)
+
+                  -- open file in new tab, reuse existing tab if already open
+                  vim.cmd('tab drop ' .. vim.fn.fnameescape(entry.filename))
+
+                  -- move cursor to correct location
+                  if entry.lnum then
+                    vim.api.nvim_win_set_cursor(0, { entry.lnum, entry.col or 0 })
+                  end
+                end
+
+                map('i', '<CR>', open_in_tab)
+                map('n', '<CR>', open_in_tab)
+                return true
+              end
+
+              fn(opts)
+            end
+          end
+
+          -- Build wrappers for all LSP jump functions
+          local lsp_definitions = make_tabopen_picker(builtin.lsp_definitions)
+          -- local lsp_references = make_tabopen_picker(builtin.lsp_references)
+          -- local lsp_implementations = make_tabopen_picker(builtin.lsp_implementations)
+          -- local lsp_type_definitions = make_tabopen_picker(builtin.lsp_type_definitions)
+          -- local lsp_declarations = make_tabopen_picker(builtin.lsp_declarations)
+
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
           -- map('gd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
-          vim.api.nvim_set_keymap(
-            'n',
-            'gd',
-            [[<cmd>lua require('telescope.builtin').lsp_definitions({ jump_type = 'tab drop', reuse_win = true })<CR>]],
-            { noremap = true, silent = true }
-          )
+          --
+          -- vim.api.nvim_set_keymap(
+          --   'n',
+          --   'gd',
+          --   [[<cmd>lua require('telescope.builtin').lsp_definitions({ jump_type = 'tab drop', reuse_win = true })<CR>]],
+          --   { noremap = true, silent = true }
+          -- )
+          --
+          map('gd', lsp_definitions, '[G]oto [D]efinition')
+
           -- the above reuse_win is for split window, not for tab
           --
 
