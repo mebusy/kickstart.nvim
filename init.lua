@@ -165,6 +165,9 @@ vim.cmd [[
 vim.opt.fileencodings = { 'ucs-bom', 'utf-8', 'gbk', 'gb2312', 'cp936', 'big5', 'latin1' }
 -- to force save with utf-8:    `:set fileencoding=utf-8 | w`
 
+-- markdown codeblock color
+vim.api.nvim_set_hl(0, '@markup.raw', { fg = '#e3c46f' })
+
 ---------------------------- END MY-CUSTOM ----------------------------
 
 -- Make line numbers default
