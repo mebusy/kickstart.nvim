@@ -165,6 +165,11 @@ vim.api.nvim_create_user_command('WU8', function()
   vim.cmd 'write ++enc=utf-8'
 end, {})
 
+-- save without formatter  `:noautocmd w`
+vim.api.nvim_create_user_command('WNF', function()
+  vim.cmd 'noautocmd write'
+end, {})
+
 -- markdown codeblock color
 vim.api.nvim_set_hl(0, '@markup.raw', { fg = '#e3c46f' })
 
