@@ -299,6 +299,10 @@ vim.opt.rtp:prepend(lazypath)
 -- load extra vim script
 vim.cmd('source ' .. vim.fn.stdpath 'config' .. '/config.vim')
 
+if vim.fn.getenv 'MINIMAL_NVIM' == '1' then
+  return
+end
+
 -- [[ Configure and install plugins ]]
 --
 --  To check the current status of your plugins, run
