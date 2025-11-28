@@ -46,6 +46,11 @@ return {
       -- " clean all break points
       -- nnoremap <Leader>dT :call vimspector#ClearBreakpoints()<CR>
       vim.keymap.set('n', '<Leader>dT', ':call vimspector#ClearBreakpoints()<CR>', { noremap = true })
+
+      -- call vimspector#StepInto()
+      vim.keymap.set('n', '<Leader>SI', ':call vimspector#StepInto()<CR>', { noremap = true })
+      -- call vimspector#StepOut()
+      vim.keymap.set('n', '<Leader>SO', ':call vimspector#StepOut()<CR>', { noremap = true })
     end,
   },
 }
