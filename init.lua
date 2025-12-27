@@ -897,6 +897,8 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         -- add your lsp here
+        'java-test',
+        'java-debug-adapter',
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
@@ -910,15 +912,17 @@ require('lazy').setup({
       local installedServers = mason_lspconfig.get_installed_servers()
 
       for _, server_name in pairs(installedServers) do
-        local server = servers[server_name] or {} -- load preset config if available
-        -- print('init lsp: ' .. vim.inspect(server_name) .. vim.inspect(server))
-        -- This handles overriding only values explicitly passed
-        -- by the server configuration above. Useful when disabling
-        -- certain features of an LSP (for example, turning off formatting for ts_ls)
-        server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-        -- require('lspconfig')[server_name].setup(server)
-        vim.lsp.config(server_name, server)
-        vim.lsp.enable(server_name)
+        if server_name ~= 'jdtls' then
+          local server = servers[server_name] or {} -- load preset config if available
+          -- print('init lsp: ' .. vim.inspect(server_name) .. vim.inspect(server))
+          -- This handles overriding only values explicitly passed
+          -- by the server configuration above. Useful when disabling
+          -- certain features of an LSP (for example, turning off formatting for ts_ls)
+          server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
+          -- require('lspconfig')[server_name].setup(server)
+          vim.lsp.config(server_name, server)
+          vim.lsp.enable(server_name)
+        end
       end
     end,
   },

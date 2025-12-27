@@ -53,4 +53,8 @@ return {
       vim.keymap.set('n', '<Leader>SO', ':call vimspector#StepOut()<CR>', { noremap = true })
     end,
   },
+  {
+    'mfussenegger/nvim-jdtls',
+    ft = { 'java' },
+  },
 }
