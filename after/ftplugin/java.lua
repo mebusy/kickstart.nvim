@@ -3,36 +3,50 @@ if not ok then
   return
 end
 
+local jdtls_setup = require 'jdtls.setup'
+
 local mason = vim.fn.stdpath 'data' .. '/mason'
 
+-- OS config dir for jdtls (mason packages/jdtls/)
 local os_config = (vim.fn.has 'mac' == 1) and 'config_mac' or 'config_linux'
 
-local root_markers = { 'pom.xml', '.git', 'mvnw', 'gradlew' }
-local root_dir = require('jdtls.setup').find_root(root_markers)
+-- Find project root (Maven/Gradle/Git)
+local root_markers = { 'pom.xml', 'build.gradle', 'build.gradle.kts', 'settings.gradle', 'settings.gradle.kts', '.git', 'mvnw', 'gradlew' }
+local root_dir = jdtls_setup.find_root(root_markers)
 if not root_dir then
   return
 end
 
-local project_name = vim.fn.fnamemodify(root_dir, ':p:h:t')
--- 可修改
-local workspace_dir = mason .. '/jdtls-workspace/' .. project_name
-
--- bundles: java-debug + java-test
-local bundles = {}
-
-local debug_jar = vim.fn.glob(mason .. '/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar', 1)
-if debug_jar ~= '' then
-  table.insert(bundles, debug_jar)
+-- Stable workspace dir based on root_dir path hash (avoid collisions)
+local function workspace_name_from_root(dir)
+  -- Turn /a/b/c into a safe-ish name + add a hash suffix
+  local base = vim.fn.fnamemodify(dir, ':p:h:t')
+  local hash = vim.fn.sha256(dir):sub(1, 12)
+  return base .. '-' .. hash
 end
 
-local test_jars = vim.fn.glob(mason .. '/packages/java-test/extension/server/*.jar', 1, 1)
-if type(test_jars) == 'table' then
-  vim.list_extend(bundles, test_jars)
+local workspace_dir = mason .. '/jdtls-workspace/' .. workspace_name_from_root(root_dir)
+
+-- Collect debug/test bundles from mason
+local function collect_bundles()
+  local bundles = {}
+
+  local debug_jar = vim.fn.glob(mason .. '/packages/java-debug-adapter/extension/server/com.microsoft.java.debug.plugin-*.jar', 1)
+  if debug_jar ~= '' then
+    table.insert(bundles, debug_jar)
+  end
+
+  local test_jars = vim.fn.glob(mason .. '/packages/java-test/extension/server/*.jar', 1, 1)
+  if type(test_jars) == 'table' then
+    vim.list_extend(bundles, test_jars)
+  end
+
+  return bundles
 end
 
 local launcher_jar = vim.fn.glob(mason .. '/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar', 1)
 if launcher_jar == '' then
-  vim.notify('jdtls launcher jar not found under mason', vim.log.levels.ERROR)
+  vim.notify('jdtls launcher jar not found: ' .. mason .. '/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar', vim.log.levels.ERROR)
   return
 end
 
@@ -61,24 +75,23 @@ local config = {
   root_dir = root_dir,
 
   init_options = {
-    bundles = bundles,
+    bundles = collect_bundles(),
   },
 }
 
 jdtls.start_or_attach(config)
 
--- ===== vimspector: get DAP port then launch =====
-
-local dap_port_cache
+-- ============ vimspector integration (always fetch fresh port) ============
 
 local function get_jdtls_client()
-  -- nvim-jdtls 有时提供 get_client；没有的话就从 lsp clients 找
+  -- prefer nvim-jdtls helper if available
   if type(jdtls.get_client) == 'function' then
     local c = jdtls.get_client()
     if c then
       return c
     end
   end
+  -- fallback: find attached lsp client
   for _, c in ipairs(vim.lsp.get_clients { bufnr = 0 }) do
     if c.name == 'jdtls' then
       return c
@@ -86,38 +99,48 @@ local function get_jdtls_client()
   end
 end
 
-local function get_dap_port()
+local function get_fresh_dap_port()
   local client = get_jdtls_client()
   if not client then
     vim.notify('jdtls client not ready', vim.log.levels.ERROR)
     return nil
   end
 
-  local resp = client.request_sync('workspace/executeCommand', { command = 'vscode.java.startDebugSession', arguments = {} }, 10000, 0)
+  local resp = client.request_sync('workspace/executeCommand', { command = 'vscode.java.startDebugSession', arguments = {} }, 15000, 0)
 
-  if resp and resp.err then
-    vim.notify(('startDebugSession error: %s'):format(resp.err.message or vim.inspect(resp.err)), vim.log.levels.ERROR)
+  if not resp then
+    vim.notify('No response from jdtls for startDebugSession', vim.log.levels.ERROR)
     return nil
   end
 
-  return resp and resp.result or nil
+  if resp.err then
+    vim.notify('startDebugSession error: ' .. (resp.err.message or vim.inspect(resp.err)), vim.log.levels.ERROR)
+    return nil
+  end
+
+  local port = resp.result
+  if not port or port == '' or port == 0 then
+    vim.notify('startDebugSession returned empty DAP port', vim.log.levels.ERROR)
+    return nil
+  end
+
+  return port
 end
 
 local function vimspector_java_launch()
-  if not dap_port_cache or dap_port_cache == '' or dap_port_cache == 0 then
-    dap_port_cache = get_dap_port()
-  end
-
-  if not dap_port_cache or dap_port_cache == '' or dap_port_cache == 0 then
-    vim.notify('Could not get DAPPort from jdtls. Next step: inspect executeCommandProvider.commands.', vim.log.levels.ERROR)
+  local port = get_fresh_dap_port()
+  if not port then
     return
   end
 
-  vim.fn['vimspector#LaunchWithSettings'] { DAPPort = dap_port_cache }
+  -- optional: show port in message area for troubleshooting
+  -- vim.notify("Java DAPPort=" .. tostring(port), vim.log.levels.INFO)
+
+  vim.fn['vimspector#LaunchWithSettings'] { DAPPort = port }
 end
 
-vim.keymap.set('n', '<leader><F5>', vimspector_java_launch, {
+vim.keymap.set('n', '<leader>dd', vimspector_java_launch, {
   buffer = true,
   silent = true,
-  desc = 'Java Debug (vimspector) - auto DAPPort',
+  desc = 'Java Debug (vimspector) - fresh DAPPort from jdtls',
 })
