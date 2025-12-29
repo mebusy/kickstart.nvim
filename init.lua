@@ -118,7 +118,8 @@ vim.opt.bg = 'dark'
 ------- START COLOR SCHEME ----------
 -- 怎么查看配色类型:
 --    :Inspect (nvim 自带)
----
+-- 看某个 highlight group 的来源（谁最后设置的）, 比如 Comment:
+--    :verbose hi Comment
 -- https://gitlab.b-data.ch/neovim/neovim/-/blob/master/runtime/colors/zaibatsu.vim
 --
 -- vim.cmd.colorscheme 'zaibatsu'
