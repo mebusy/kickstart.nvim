@@ -957,7 +957,7 @@ require('lazy').setup({
           lsp_format_opt = 'if_no_formatters' -- 只有在找不到格式化工具时才回退到 LSP
         end
         return {
-          timeout_ms = 1500, -- format timeout
+          timeout_ms = 5000, -- format timeout
           lsp_format = lsp_format_opt,
         }
       end,
