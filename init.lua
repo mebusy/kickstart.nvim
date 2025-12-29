@@ -116,17 +116,30 @@ vim.opt.softtabstop = 4
 vim.opt.bg = 'dark'
 
 ------- START COLOR SCHEME ----------
+-- 怎么查看配色类型:
+--    :Inspect (nvim 自带)
+---
 -- https://gitlab.b-data.ch/neovim/neovim/-/blob/master/runtime/colors/zaibatsu.vim
 --
 -- vim.cmd.colorscheme 'zaibatsu'
 -- vim.cmd.hi 'Pmenu ctermbg=gray' -- zaiabatsu  popup menu is too bright
 
+-- 让 Comment 永远是 darkgray（终端色）
+vim.api.nvim_create_autocmd('ColorScheme', {
+  group = vim.api.nvim_create_augroup('MyCommentColor', { clear = true }),
+  callback = function()
+    -- 同时设置 GUI/truecolor 与 cterm
+    vim.api.nvim_set_hl(0, 'Comment', { fg = '#5f5f5f', ctermfg = 'darkgray' })
+
+    -- Tree-sitter comment 也统一跟随
+    vim.api.nvim_set_hl(0, '@comment', { link = 'Comment' })
+    vim.api.nvim_set_hl(0, '@comment.documentation', { link = 'Comment' })
+  end,
+})
+
 vim.cmd.colorscheme 'koehler'
 vim.cmd.hi 'NonText ctermfg=103' -- koehler  NonText's color is too RED
 ------- END COLOR SCHEME ----------
-
--- Set up highlight for comments, may break colorscheme
-vim.cmd.hi 'Comment ctermfg=darkgray'
 
 -- vim.opt.switchbuf = 'useopen,usetab,newtab'
 -- greatest remap ever: paste over without overwriting register
@@ -357,7 +370,7 @@ require('lazy').setup({
   -- Then, because we use the `opts` key (recommended), the configuration runs
   -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
 
-  {                     -- Useful plugin to show you pending keybinds.
+  { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
@@ -403,7 +416,7 @@ require('lazy').setup({
 
       -- Document existing key chains
       spec = {
-        { '<leader>c', group = '[C]ode',     mode = { 'n', 'x' } },
+        { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
         { '<leader>d', group = '[D]ocument' },
         { '<leader>r', group = '[R]ename' },
         { '<leader>s', group = '[S]earch' },
@@ -443,7 +456,7 @@ require('lazy').setup({
       { 'nvim-telescope/telescope-ui-select.nvim' },
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons',            enabled = vim.g.have_nerd_font },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -548,7 +561,7 @@ require('lazy').setup({
       -- NOTE: `opts = {}` is the same as calling `require('mason').setup({})`
       -- { 'mason-org/mason.nvim', opts = {}, version = '^1.0.0' },
       -- { 'mason-org/mason-lspconfig.nvim', version = '^1.0.0' },
-      { 'mason-org/mason.nvim',          opts = {} }, -- nvim 0.11.1 fix this issue
+      { 'mason-org/mason.nvim', opts = {} }, -- nvim 0.11.1 fix this issue
       { 'mason-org/mason-lspconfig.nvim' },
       'WhoIsSethDaniel/mason-tool-installer.nvim',
 
@@ -1140,7 +1153,7 @@ require('lazy').setup({
       statusline.setup { use_icons = vim.g.have_nerd_font }
 
       -- Define highlight groups for errors and warnings
-      vim.api.nvim_set_hl(0, 'StatuslineError', { ctermbg = 'red', ctermfg = 'black' })   -- Red for errors
+      vim.api.nvim_set_hl(0, 'StatuslineError', { ctermbg = 'red', ctermfg = 'black' }) -- Red for errors
       vim.api.nvim_set_hl(0, 'StatuslineWarn', { ctermbg = 'yellow', ctermfg = 'black' }) -- Yellow for warnings
 
       -- You can configure sections in the statusline by overriding their
