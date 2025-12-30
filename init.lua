@@ -618,7 +618,7 @@ require('lazy').setup({
           -- 当 跳转 lsp definition的时候，如果只有一个确定的备选， 会正确地在新的 tab 打开。
           -- 但是如果出现了 LSP definitions Result 选择界面，按回车选中， 会直接在 当前buf中打开，而不是新的tab，
           -- 怎么设置，才能使得 这种情况，也在新tab 中打开?
-          local telescope = require 'telescope'
+          -- local telescope = require 'telescope'
           local builtin = require 'telescope.builtin'
           local actions = require 'telescope.actions'
           local action_state = require 'telescope.actions.state'
@@ -631,7 +631,7 @@ require('lazy').setup({
               opts.jump_type = opts.jump_type or 'tab drop'
               opts.reuse_win = opts.reuse_win ~= false
 
-              opts.attach_mappings = function(_, map)
+              opts.attach_mappings = function(_, _map)
                 -- override <CR> in both insert & normal mode
                 local function open_in_tab(prompt_bufnr)
                   local entry = action_state.get_selected_entry()
@@ -646,8 +646,8 @@ require('lazy').setup({
                   end
                 end
 
-                map('i', '<CR>', open_in_tab)
-                map('n', '<CR>', open_in_tab)
+                _map('i', '<CR>', open_in_tab)
+                _map('n', '<CR>', open_in_tab)
                 return true
               end
 
@@ -703,7 +703,7 @@ require('lazy').setup({
           --  Most Language Servers support renaming across files, etc.
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
 
-          -- Execute a code action, usually your cursor needs to be on top of an error
+          -- Execute a code action, usually your cursor needs to be on top of an errobufnr
           -- or a suggestion from your LSP for this to activate.
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
 
@@ -716,8 +716,9 @@ require('lazy').setup({
           --    See `:help CursorHold` for information about when this is executed
           --
           -- When you move your cursor, the highlights will be cleared (the second autocommand).
+          local bufnr = event.buf
           local client = vim.lsp.get_client_by_id(event.data.client_id)
-          if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight) then
+          if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_documentHighlight, bufnr) then
             local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
               buffer = event.buf,
@@ -744,7 +745,7 @@ require('lazy').setup({
           -- code, if the language server you are using supports them
           --
           -- This may be unwanted, since they displace some of your code
-          if client and client.supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint) then
+          if client and client:supports_method(vim.lsp.protocol.Methods.textDocument_inlayHint, bufnr) then
             map('<leader>th', function()
               vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
             end, '[T]oggle Inlay [H]ints')
@@ -765,7 +766,7 @@ require('lazy').setup({
             -- reload new settings
             -- print(vim.inspect(client.config.settings))
             client.config.settings.diagnostics.ignoredCodes = ignoredCodes
-            client.notify('workspace/didChangeConfiguration', { settings = client.config.settings })
+            client:notify('workspace/didChangeConfiguration', { settings = client.config.settings })
           end
         end,
       })
@@ -916,9 +917,9 @@ require('lazy').setup({
         'jdtls',
         'typescript-language-server',
         'python-lsp-server',
-        'clangd rust-analyzer',
+        'clangd',
+        'rust-analyzer',
         'omnisharp',
-        'jdtls',
         'gopls',
       })
 
