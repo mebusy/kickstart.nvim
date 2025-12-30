@@ -751,12 +751,12 @@ require('lazy').setup({
           --     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = event.buf })
           --   end, '[T]oggle Inlay [H]ints')
           -- end
-          -- if client and client.server_capabilities and client.server_capabilities.inlayHintProvider then
-          map('<leader>th', function()
-            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-            print('inlay hint status: ' .. tostring(vim.lsp.inlay_hint.is_enabled()))
-          end, '[T]oggle Inlay [H]ints')
-          -- end
+          if client and client.server_capabilities and client.server_capabilities.inlayHintProvider then
+            map('<leader>th', function()
+              vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+              print('inlay hint status: ' .. tostring(vim.lsp.inlay_hint.is_enabled()))
+            end, '[T]oggle Inlay [H]ints')
+          end
 
           if client and client.name == 'ts_ls' then
             -- use vim.inspect to print lua-table
@@ -868,6 +868,17 @@ require('lazy').setup({
               -- moved above
             },
           },
+          init_options = {
+            preferences = {
+              includeInlayParameterNameHints = 'all',
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
         },
 
         lua_ls = {
@@ -923,7 +934,8 @@ require('lazy').setup({
         'java-debug-adapter',
         'jdtls',
         'typescript-language-server',
-        'python-lsp-server',
+        -- 'python-lsp-server',
+        'pyright',
         'clangd',
         'rust-analyzer',
         'omnisharp',
