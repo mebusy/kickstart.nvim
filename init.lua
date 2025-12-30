@@ -913,6 +913,13 @@ require('lazy').setup({
         -- add your lsp here
         'java-test',
         'java-debug-adapter',
+        'jdtls',
+        'typescript-language-server',
+        'python-lsp-server',
+        'clangd rust-analyzer',
+        'omnisharp',
+        'jdtls',
+        'gopls',
       })
 
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
