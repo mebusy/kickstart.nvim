@@ -62,7 +62,7 @@ return {
           -- describe the hovered symbol using Markdown.
           if vim.opt_local.modifiable:get() then
             lint.try_lint()
-            print 'Linting...'
+            -- print 'Linting...'
           end
         end,
       })
