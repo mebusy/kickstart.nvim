@@ -2,7 +2,7 @@
 
 FAQ:
 
-# if nvim-treesitter got error
+# if nvim-treesitter got error after upgrade nvim
 
 rm -rf ~/.local/share/nvim/lazy/nvim-treesitter
 
