@@ -6,6 +6,20 @@ FAQ:
 
 rm -rf ~/.local/share/nvim/lazy/nvim-treesitter
 
+# mason bin
+
+```luba
+local mason_bin = vim.fn.stdpath("data") .. "/mason/bin/"
+```
+
+normally , it is `~/.local/share/nvim/mason/bin/`
+
+# 降级 prettier
+
+npm -g i prettier@2.8.8
+
+
+
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
@@ -322,6 +336,8 @@ vim.cmd('source ' .. vim.fn.stdpath 'config' .. '/config.vim')
 if vim.fn.getenv 'MINIMAL_NVIM' == '1' then
   return
 end
+
+local mason_bin = vim.fn.stdpath 'data' .. '/mason/bin/'
 
 -- [[ Configure and install plugins ]]
 --
@@ -948,6 +964,16 @@ require('lazy').setup({
         'gopls',
       })
 
+      vim.list_extend(ensure_installed, {
+        -- add your formater here
+        'black', --python formatter
+        'flake8', --python linter
+        'prettier',
+        'stylua', -- lua formatter
+        'clang-format', -- c/cpp formatter
+        'markdownlint',
+      })
+
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
       local mason_lspconfig = require 'mason-lspconfig'
@@ -1020,6 +1046,13 @@ require('lazy').setup({
         -- cpp = { 'clang-format' },
         cs = { 'clang-format' },
         java = { 'clang-format' },
+      },
+      formatters = {
+        prettier = {
+          command = vim.fn.exepath 'prettier', -- use system-side prettier instead of the mason one
+          args = { '--stdin-filepath', '$FILENAME' },
+          -- stdin = true,
+        },
       },
     },
   },
@@ -1282,6 +1315,7 @@ require('lazy').setup({
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   { import = 'custom.plugins' },
+  { import = 'kickstart.plugins.lint' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
