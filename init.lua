@@ -14,15 +14,13 @@ local mason_bin = vim.fn.stdpath("data") .. "/mason/bin/"
 
 normally , it is `~/.local/share/nvim/mason/bin/`
 
-# 降级 prettier
-
-npm -g i prettier@2.8.8
 
 # 使用内置 formater
-brew uninstall black flake8  prettier stylua clang-format
-brew install eslint
+brew uninstall black flake8  prettier eslint stylua clang-format
 
-
+# prettiert/eslint 最好使用 npm 安装，方便降级
+npm -g i prettier@2.8.8
+npm -g i eslint@8
 
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
@@ -284,6 +282,9 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+
+-- float diagnostic popuo on cursor line
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open diagnostic [E]lement' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
@@ -1004,7 +1005,7 @@ require('lazy').setup({
     end,
   },
 
-  { -- Autoformat
+  { -- Autoformat  :ConformInfo  查看formater信息
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },
     cmd = { 'ConformInfo' },
@@ -1046,10 +1047,10 @@ require('lazy').setup({
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
-        javascript = { 'prettier', 'eslint' },
+        javascript = { 'prettier' },
         -- cpp = { 'clang-format' },
         cs = { 'clang-format' },
-        java = { 'clang-format' },
+        java = {}, -- 留空，使用 jdtls fallback
       },
       formatters = {
         prettier = {

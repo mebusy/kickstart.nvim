@@ -5,9 +5,17 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       local lint = require 'lint'
+
+      -- 1) Force eslint command to be the global eslint@8 absolute path
+      lint.linters.eslint.cmd = vim.fn.exepath 'eslint'
+
       lint.linters_by_ft = {
         markdown = { 'markdownlint' },
         python = { 'flake8' },
+        javascript = { 'eslint' },
+        javascriptreact = { 'eslint' },
+        typescript = { 'eslint' },
+        typescriptreact = { 'eslint' },
       }
 
       -- To allow other plugins to add linters to require('lint').linters_by_ft,
@@ -53,6 +61,7 @@ return {
           -- describe the hovered symbol using Markdown.
           if vim.opt_local.modifiable:get() then
             lint.try_lint()
+            print 'Linting...'
           end
         end,
       })
