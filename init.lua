@@ -18,6 +18,10 @@ normally , it is `~/.local/share/nvim/mason/bin/`
 
 npm -g i prettier@2.8.8
 
+# 使用内置 formater
+brew uninstall black flake8  prettier stylua clang-format
+brew install eslint
+
 
 
 =====================================================================
