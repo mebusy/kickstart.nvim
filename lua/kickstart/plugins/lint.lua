@@ -7,6 +7,7 @@ return {
       local lint = require 'lint'
 
       -- 1) Force eslint command to be the global eslint@8 absolute path
+      -- if not specific, nvim lint actally use `npx eslint ...`
       lint.linters.eslint.cmd = vim.fn.exepath 'eslint'
 
       lint.linters_by_ft = {
