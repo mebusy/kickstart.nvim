@@ -11,7 +11,7 @@ return {
       lint.linters.eslint.cmd = vim.fn.exepath 'eslint'
 
       lint.linters_by_ft = {
-        markdown = { 'markdownlint' },
+        -- markdown = { 'markdownlint' },
         python = { 'flake8' },
         javascript = { 'eslint' },
         javascriptreact = { 'eslint' },
