@@ -517,6 +517,13 @@ require('lazy').setup({
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         --   },
         -- },
+        defaults = {
+          -- layout_strategy = 'horizontal',
+          layout_config = {
+            width = 0.9, -- 整个 Telescope 窗口宽度
+            preview_width = 0.5, -- Preview 占比（60%）
+          },
+        },
         -- pickers = {}
         extensions = {
           ['ui-select'] = {
