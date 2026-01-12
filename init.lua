@@ -506,6 +506,38 @@ require('lazy').setup({
       -- Telescope picker. This is really useful to discover what Telescope can
       -- do as well as how to actually do it!
 
+      local function open_in_tab_if_exists(prompt_bufnr)
+        local actions = require 'telescope.actions'
+        local action_state = require 'telescope.actions.state'
+
+        local entry = action_state.get_selected_entry()
+        actions.close(prompt_bufnr)
+
+        local filename = entry.path or entry.filename
+        if not filename then
+          return
+        end
+
+        filename = vim.fn.fnamemodify(filename, ':p')
+
+        -- 遍历所有 tab
+        for _, tab in ipairs(vim.api.nvim_list_tabpages()) do
+          for _, win in ipairs(vim.api.nvim_tabpage_list_wins(tab)) do
+            local buf = vim.api.nvim_win_get_buf(win)
+            local bufname = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ':p')
+            if bufname == filename then
+              -- 已经打开，直接跳过去
+              vim.api.nvim_set_current_tabpage(tab)
+              vim.api.nvim_set_current_win(win)
+              return
+            end
+          end
+        end
+
+        -- 没打开过，新开 tab
+        vim.cmd('tabedit ' .. vim.fn.fnameescape(filename))
+      end
+
       -- [[ Configure Telescope ]]
       -- See `:help telescope` and `:help telescope.setup()`
       require('telescope').setup {
@@ -518,6 +550,15 @@ require('lazy').setup({
         --   },
         -- },
         defaults = {
+          -- globally
+          mappings = {
+            i = {
+              ['<CR>'] = open_in_tab_if_exists,
+            },
+            n = {
+              ['<CR>'] = open_in_tab_if_exists,
+            },
+          },
           -- layout_strategy = 'horizontal',
           layout_config = {
             width = 0.9, -- 整个 Telescope 窗口宽度
