@@ -521,7 +521,7 @@ require('lazy').setup({
           -- layout_strategy = 'horizontal',
           layout_config = {
             width = 0.9, -- 整个 Telescope 窗口宽度
-            preview_width = 0.5, -- Preview 占比（60%）
+            preview_width = 0.6, -- Preview 占比（60%）
           },
         },
         -- pickers = {}
