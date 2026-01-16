@@ -22,6 +22,12 @@ brew uninstall black flake8  prettier eslint stylua clang-format
 npm -g i prettier@2.8.8
 npm -g i eslint@8
 
+# nvim debug
+
+-- 确定某个 快捷键的映射 是什么插件提供的
+-- :map gcc
+-- :map <Leader>sg
+
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
