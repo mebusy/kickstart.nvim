@@ -28,6 +28,13 @@ npm -g i eslint@8
 -- :map gcc
 -- :map <Leader>sg
 
+# jdtls 下载慢
+
+1. brew install  aria2
+2. download
+  aria2c -x 16 -s 16 -k 1M "https://download.eclipse.org/jdtls/milestones/1.55.0/jdt-language-server-1.55.0-202601131729.tar.gz"
+3. 然后呢？ 似乎没发让 mason 使用本地文件安装 jdtls ？ 
+
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
