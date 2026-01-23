@@ -222,6 +222,48 @@ end, {})
 -- markdown codeblock color
 vim.api.nvim_set_hl(0, '@markup.raw', { fg = '#e3c46f' })
 
+------------------------------
+-- 自动检测外部文件修改
+vim.o.autoread = true
+
+local augroup = vim.api.nvim_create_augroup('AutoReadFileChanged', { clear = true })
+
+-- 在这些时机检查文件是否被外部修改
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
+  group = augroup,
+  callback = function()
+    -- 避免在命令行模式触发
+    if vim.fn.mode() ~= 'c' then
+      vim.cmd 'checktime'
+    end
+  end,
+})
+
+-- 文件被外部修改后的处理
+vim.api.nvim_create_autocmd('FileChangedShellPost', {
+  group = augroup,
+  callback = function(args)
+    local buf = args.buf
+    local name = vim.api.nvim_buf_get_name(buf)
+    name = vim.fn.fnamemodify(name, ':t')
+
+    if vim.bo[buf].modified then
+      -- vim.api.nvim_echo({
+      --   { '⚠ File changed on disk (buffer has unsaved changes): ', 'WarningMsg' },
+      --   { name, 'Directory' },
+      -- }, true, {})
+      --
+      -- W12 会由 Neovim core 负责
+      return
+    else
+      vim.api.nvim_echo({
+        { '↻ File reloaded from disk: ', 'MoreMsg' },
+        { name, 'Directory' },
+      }, true, {})
+    end
+  end,
+})
+
 ---------------------------- END MY-CUSTOM ----------------------------
 
 -- Make line numbers default
