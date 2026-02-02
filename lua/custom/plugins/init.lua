@@ -51,6 +51,8 @@ return {
       vim.keymap.set('n', '<Leader>SI', ':call vimspector#StepInto()<CR>', { noremap = true })
       -- call vimspector#StepOut()
       vim.keymap.set('n', '<Leader>SO', ':call vimspector#StepOut()<CR>', { noremap = true })
+
+      -- :VimspectorEval 可以修改 变量的值(如果支持)
     end,
   },
   {
