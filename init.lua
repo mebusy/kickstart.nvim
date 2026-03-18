@@ -1154,6 +1154,8 @@ require('lazy').setup({
         -- cpp = { 'clang-format' },
         cs = { 'clang-format' },
         java = {}, -- 留空，使用 jdtls fallback
+        -- c = { 'clang-format' },
+        -- cpp = { 'clang-format' },
       },
       formatters = {
         prettier = {
