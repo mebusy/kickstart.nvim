@@ -207,6 +207,14 @@ vim.cmd [[
   autocmd FileType c,cpp,hpp setlocal commentstring=//\ %s
 ]]
 
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'c', 'cpp' },
+  callback = function()
+    vim.opt_local.wrap = false
+    vim.opt_local.synmaxcol = 300
+  end,
+})
+
 -- 多编码识别
 vim.opt.fileencodings = { 'ucs-bom', 'utf-8', 'gbk', 'gb2312', 'cp936', 'big5', 'latin1' }
 -- to force save with utf-8:    `:set fileencoding=utf-8 | w`
@@ -905,7 +913,7 @@ require('lazy').setup({
             client.config.settings.diagnostics.ignoredCodes = ignoredCodes
             client:notify('workspace/didChangeConfiguration', { settings = client.config.settings })
           end
-        end,
+        end, -- end callback
       })
 
       -- Change diagnostic symbols in the sign column (gutter)
