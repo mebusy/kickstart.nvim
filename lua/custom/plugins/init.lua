@@ -12,6 +12,10 @@ return {
       if vim.fn.filereadable(nodePath) == 1 then
         vim.g.copilot_node_command = nodePath
       end
+
+      -- [option to change LLM models] https://github.com/github/copilot.vim/issues/77
+      -- `:Copilot model` to see the current model
+      -- vim.g.copilot_settings = { selectedCompletionModel = 'xxxx' }
     end,
   },
   {
