@@ -295,17 +295,23 @@ vim.opt.showmode = false
 --   vim.opt.clipboard = 'unnamedplus'
 -- end)
 -- ssh 场景，系统剪切板透传
-vim.g.clipboard = {
-  name = 'OSC 52',
-  copy = {
-    ['+'] = require('vim.ui.clipboard.osc52').copy '+',
-    ['*'] = require('vim.ui.clipboard.osc52').copy '*',
-  },
-  paste = {
-    ['+'] = require('vim.ui.clipboard.osc52').paste '+',
-    ['*'] = require('vim.ui.clipboard.osc52').paste '*',
-  },
-}
+if vim.env.SSH_TTY then
+  local osc52 = require 'vim.ui.clipboard.osc52'
+
+  vim.g.clipboard = {
+    name = 'OSC 52',
+    copy = {
+      ['+'] = osc52.copy '+',
+      ['*'] = osc52.copy '*',
+    },
+    paste = {
+      ['+'] = osc52.paste '+',
+      ['*'] = osc52.paste '*',
+    },
+  }
+  -- else
+  --   vim.opt.clipboard = "unnamedplus"
+end
 
 -- Enable break indent
 vim.opt.breakindent = true
