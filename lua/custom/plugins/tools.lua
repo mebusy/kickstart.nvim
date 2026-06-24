@@ -65,7 +65,7 @@ return {
         delay = 200,
         virt_text_pos = 'eol',
       },
-      current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <summary> · <abbrev_sha>',
+      current_line_blame_formatter = '><author> <author_time:%Y-%m-%d> <summary> ·<abbrev_sha>',
     },
     config = function(_, opts)
       require('gitsigns').setup(opts)
