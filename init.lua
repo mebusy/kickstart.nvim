@@ -1034,6 +1034,9 @@ require('lazy').setup({
               includeInlayFunctionLikeReturnTypeHints = true,
               includeInlayEnumMemberValueHints = true,
             },
+            tsserver = {
+              path = vim.fn.exepath 'tsserver',
+            },
           },
         },
 
