@@ -56,6 +56,14 @@ return {
       -- call vimspector#StepOut()
       vim.keymap.set('n', '<Leader>SO', ':call vimspector#StepOut()<CR>', { noremap = true })
 
+      vim.api.nvim_create_user_command('VimspectorRenderWinBar', function()
+        vim.cmd [[py3 _vimspector_session._codeView._RenderWinBar()]]
+      end, {})
+
+      vim.keymap.set('n', '<leader>db', '<cmd>VimspectorRenderWinBar<CR>', {
+        silent = true,
+        desc = 'Vimspector: Render WinBar',
+      })
       -- :VimspectorEval 可以修改 变量的值(如果支持)
     end,
   },
