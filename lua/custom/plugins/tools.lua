@@ -25,6 +25,12 @@ return {
       vim.g.loaded_netrwPlugin = 1
       require('nvim-tree').setup {
         view = { adaptive_size = true },
+        -- quit nvim-tree on open file
+        actions = {
+          open_file = {
+            quit_on_open = true,
+          },
+        },
         renderer = {
           icons = {
             glyphs = {
