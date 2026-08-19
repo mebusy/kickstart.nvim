@@ -931,6 +931,18 @@ require('lazy').setup({
             client.config.settings.diagnostics.ignoredCodes = ignoredCodes
             client:notify('workspace/didChangeConfiguration', { settings = client.config.settings })
           end
+
+          -- LspInfo / LspRestart
+          if vim.fn.exists ':LspInfo' == 0 then
+            vim.api.nvim_create_user_command('LspInfo', function()
+              vim.cmd 'checkhealth vim.lsp'
+            end, {})
+          end
+          if vim.fn.exists ':LspRestart' == 0 then
+            vim.api.nvim_create_user_command('LspRestart', function()
+              vim.cmd 'lsp restart'
+            end, {})
+          end
         end, -- end callback
       })
 
