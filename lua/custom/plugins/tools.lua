@@ -12,7 +12,7 @@ return {
   },
   {
     'nvim-tree/nvim-tree.lua',
-    event = 'VimEnter',
+    -- event = 'VimEnter',  -- solve vi folder got empty page
     dependencies = {
       -- Useful for getting pretty icons, but requires a Nerd Font.
       -- { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
