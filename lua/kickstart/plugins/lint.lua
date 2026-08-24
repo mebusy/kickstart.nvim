@@ -9,7 +9,17 @@ return {
       -- 1) Force eslint command to be the global eslint@8 absolute path
       -- if not specific, nvim lint actally use `npx eslint ...`
       lint.linters.eslint.cmd = vim.fn.exepath 'eslint'
-
+      lint.linters.eslint.args = {
+        '--format',
+        'json',
+        '--rule',
+        '{"no-lonely-if":"off"}', -- rules
+        '--stdin',
+        '--stdin-filename',
+        function()
+          return vim.api.nvim_buf_get_name(0)
+        end,
+      }
       lint.linters_by_ft = {
         -- markdown = { 'markdownlint' },
         python = { 'flake8' },
