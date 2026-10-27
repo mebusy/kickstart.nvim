@@ -35,6 +35,15 @@ npm -g i eslint@8
   aria2c -x 16 -s 16 -k 1M "https://download.eclipse.org/jdtls/milestones/1.55.0/jdt-language-server-1.55.0-202601131729.tar.gz"
 3. 然后呢？ 似乎没发让 mason 使用本地文件安装 jdtls ？ 
 
+
+# nvim 编辑二进制文件
+
+1. nvim -b file.bin 必须要-b， 不然文件会被当作文本文件打开，收到默认编码影响
+2. :%!xxd   -- 转换成十六进制格式
+3. 编辑
+4. :%!xxd -r  -- 转换回二进制文件
+5. :w 保存
+
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
@@ -403,6 +412,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
     vim.highlight.on_yank()
   end,
 })
+
+-- 编辑二进制文件 快捷键
+vim.keymap.set('n', '<leader>hx', function()
+  vim.cmd '%!xxd'
+end, { desc = 'Convert buffer to hex' })
+
+vim.keymap.set('n', '<leader>hr', function()
+  vim.cmd '%!xxd -r'
+end, { desc = 'Convert hex to binary' })
 
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
