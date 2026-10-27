@@ -223,6 +223,13 @@ vim.cmd [[
 --     vim.opt_local.synmaxcol = 300
 --   end,
 -- })
+-- cpp 恼人的 有注释行 按 o 后，下一行 自动补注释
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'c', 'cpp', 'objc', 'cc', 'hh' },
+  callback = function()
+    vim.opt_local.formatoptions:remove { 'o', 'r' }
+  end,
+})
 
 -- 多编码识别
 vim.opt.fileencodings = { 'ucs-bom', 'utf-8', 'gbk', 'gb2312', 'cp936', 'big5', 'latin1' }
